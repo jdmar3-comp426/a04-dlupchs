@@ -32,16 +32,16 @@ app.get("/app/users", (req, res) => {
 
 // READ a single user (HTTP method GET) at endpoint /app/user/:id
 app.get("/app/user/:id", (req, res) => {	
-	const stmt = db.prepare(`SELECT * FROM userinfo WHERE id = ${req.params.id}`).all();
+	const stmt = db.prepare(`SELECT * FROM userinfo WHERE id = ${req.params.id}`);
 	res.status(200).json(stmt);
 });
 
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
 app.use("/app/update/user/:id", (req, res) => {	
 	
-	const stmt = db.prepare(`UPDATE userinfo SET user = COALESCE(?,${req.params.user}]), pass = COALESCE(?,${req.params.pass}) 
-		WHERE id = ${req.params.id}`).run();
-	res.status(204).json({"message": `1 record updated: ID ${req.params.id} (200)`});
+	// const stmt = db.prepare(`UPDATE userinfo SET user = COALESCE(?,${req.params.user}]), pass = COALESCE(?,${req.params.pass}) 
+	// 	WHERE id = ${req.params.id}`).run();
+	// res.status(204).json({"message": `1 record updated: ID ${req.params.id} (200)`});
 });
 
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
@@ -52,8 +52,8 @@ app.use("/app/delete/user/:id", (req, res) => {
 
 // POST A NEW a single user /app/new/
 app.post("/app/new/", (req, res) => {
-	const stmt = db.prepare(`INSERT INTO userinfo(user, pass) VALUES (?, ?)`).run(req.body.user, md5(req.body.pass));
-	res.status(201).json({"message": `1 record created: ID ${stmt.lastInsertRowid} (201)`});
+	const info = db.prepare(`INSERT INTO userinfo(user, pass) VALUES (?, ?)`).run(req.body.user, md5(req.body.pass));
+	res.status(201).json({"message": `1 record created: ID ${info.lastInsertRowid} (201)`});
 });
 
 // Default response for any other request
