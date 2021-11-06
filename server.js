@@ -52,9 +52,7 @@ app.use("/app/delete/user/:id", (req, res) => {
 
 // POST A NEW a single user /app/new/
 app.use("/app/new/", (req, res) => {
-	console.log(req.query)
 	const stmt = db.prepare(`INSERT INTO userinfo (user, pass) VALUES (?, ?)`).run(req.query.user, req.query.pass);
-	console.log(stmt)
 	res.status(200).json({"message": `1 record createed: ID ${stmt.lastInsertRowid} (200)`});
 });
 
