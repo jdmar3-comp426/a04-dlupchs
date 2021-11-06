@@ -51,8 +51,8 @@ app.use("/app/delete/user/:id", (req, res) => {
 });
 
 // POST A NEW a single user /app/new/
-app.use("/app/new/", (req, res) => {
-	const stmt = db.prepare(`INSERT INTO userinfo (user, pass) VALUES (?, ?)`).run(req.body.user, md5(req.body.pass));
+app.post("/app/new/", (req, res) => {
+	const stmt = db.prepare(`INSERT INTO userinfo(user, pass) VALUES (?, ?)`).run(req.body.user, md5(req.body.pass));
 	res.status(201).json({"message": `1 record created: ID ${stmt.lastInsertRowid} (201)`});
 });
 
