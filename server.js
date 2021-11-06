@@ -47,13 +47,13 @@ app.use("/app/update/user/:id", (req, res) => {
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
 app.use("/app/delete/user/:id", (req, res) => {
 	const stmt = db.prepare(`DELETE FROM userinfo WHERE id = ${req.params.id}`).run();
-	res.status(200).json({"message": `1 record deleted: ID ${req.params.id} (200)`});
+	res.status(204).json({"message": `1 record deleted: ID ${req.params.id} (200)`});
 });
 
 // POST A NEW a single user /app/new/
 app.use("/app/new/", (req, res) => {
 	const stmt = db.prepare(`INSERT INTO userinfo (user, pass) VALUES (?, ?)`).run(req.query.user, req.query.pass);
-	res.status(200).json({"message": `1 record created: ID ${stmt.lastInsertRowid} (200)`});
+	res.status(204).json({"message": `1 record created: ID ${stmt.lastInsertRowid} (200)`});
 });
 
 // Default response for any other request
