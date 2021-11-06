@@ -50,6 +50,14 @@ app.use("/app/delete/user/:id", (req, res) => {
 	res.status(200).json({"message": `1 record deleted: ID ${req.params.id} (200)`});
 });
 
+// POST A NEW a single user /app/new/
+app.use("/app/new/", (req, res) => {
+	console.log(req.query)
+	const stmt = db.prepare(`INSERT INTO userinfo (user, pass) VALUES (?, ?)`).run(req.query.user, req.query.pass);
+	console.log(stmt)
+	res.status(200).json({"message": `1 record createed: ID ${stmt.lastInsertRowid} (200)`});
+});
+
 // Default response for any other request
 app.use(function(req, res){
 	res.json({"message":"Your API is working!"});
